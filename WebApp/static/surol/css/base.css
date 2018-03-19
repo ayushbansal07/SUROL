@@ -1,0 +1,53 @@
+.navbar {
+	border-radius: 0px 0px 0px 0px;
+}
+
+.navbar-brand {
+	font-family: 'Permanent Marker', cursive;
+}
+
+.container {
+	padding-top: 50px;
+	padding-bottom: 0px;
+}
+
+.well {
+	border-radius: 40px 0px 40px 0px;
+	border: 2px dashed #aabbaa;
+}
+
+#base_head {
+	padding-top: 150px;
+	font-family: 'Reenie Beanie', cursive;
+	font-size: 100px;
+}
+
+body {
+   background-image: url("http://blog.hostbaby.com/wp-content/uploads/2014/03/PaintSquares_1920x1234.jpg");
+   background-color: #cccccc;
+   background-repeat: round;
+}
+
+.row-striped:nth-of-type(odd){
+  background-color: #efefef;
+  border-left: 4px #000000 solid;
+}
+
+.row-striped:nth-of-type(even){
+  background-color: #ffffff;
+  border-left: 4px #efefef solid;
+}
+
+.row-striped {
+    padding: 15px 0;
+}
+
+#calendar-cont {
+	margin-right: 10%;
+	margin-top: 0%;
+}
+
+#left_box {
+	margin-left: 10%;
+	margin-top: 0%;
+}

@@ -1,0 +1,13 @@
+{% block content %}
+  <h2>Welcome Professor</h2>
+  Courses you are Taking :
+  <br>
+  {% for takes in Takes%}
+    <li><a href = "/surol/course/{{takes.course.id}}/"> {{takes.course.name}}  </a></li>
+    <br>
+  {% endfor %}
+  {% if error_msg %}<p><strong>{{ error_msg }}</strong></p>{% endif %}
+  {% if success_msg %}<p><strong>{{ success_msg }}</strong></p>{% endif %}
+  <a href = "/accounts/logout" > logout </a>
+
+{% endblock %}

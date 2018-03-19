@@ -1,0 +1,35 @@
+{% extends 'surol/base.html' %}
+
+{% block extended_body %}
+
+<div class="container">
+	<div class="row">
+
+	</div>
+	<div class="row">
+		<div class="col-md-2"></div>
+		<div class="col-md-8" id="base_head" align="center">
+			Synchronized User Routine OnLine
+		</div>
+		<div class="col-md-2"></div>
+	</div>
+</div>
+
+<div class="container" align="center">
+	<div class="row">
+		<div class="col-md-4"></div>
+		<div class="col-md-4">
+			<div class="well well-md">
+				<h3>Login</h3><br>
+				<form method="post">
+	        		{% csrf_token %}
+	        		{{ form.as_p }}
+	        		<br>
+	        		<button type="submit" class="btn-primary btn-lg">Login</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
