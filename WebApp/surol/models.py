@@ -9,12 +9,16 @@ class Student(models.Model):
 	email = models.EmailField(max_length=40,blank=False)
 	dept_name = models.CharField(max_length=20,blank=False)
 	password = models.CharField(max_length=20,blank=False)
+	def __str__(self):
+		return str(self.id) + " : " + str(self.name)
 
 class Professor(models.Model):
 	name = models.CharField(max_length=40,blank=False)
 	email = models.EmailField(max_length=40,blank=False)
 	dept_name = models.CharField(max_length=20,blank=False)
 	password = models.CharField(max_length=20,blank=False)
+	def __str__(self):
+		return str(self.id) + " : " + str(self.name)
 
 class Course(models.Model):
 	name = models.CharField(max_length=40,blank=False)
@@ -35,9 +39,13 @@ class Course_deadline(models.Model):
 	name = models.CharField(max_length=100,blank=False)
 	comments = models.CharField(max_length=500,blank=False)
 	date = models.DateTimeField(default=timezone.now)
+	def __str__(self):
+		return str(self.name) + " : " + str(self.date)
 
 class Personal_deadline(models.Model):
 	student = models.ForeignKey(Student,on_delete=models.CASCADE)
 	name = models.CharField(max_length=100,blank=False)
 	date = models.DateTimeField(default=timezone.now)
 	comments = models.CharField(max_length=500,blank=False)
+	def __str__(self):
+		return str(self.name) + " : " + str(self.date)

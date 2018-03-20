@@ -27,7 +27,7 @@
 
   <div style="float:right" class="panel panel-default" id="calendar-cont">
     <div class="panel-heading"><h3>Your calendar</h3></div>
-    <div class="panel-body">
+    <div class="panel-body" style="max-width: 800; min-width: 800;">
 
 
     {% for ddate,dname,dcomments  in Deadlines %}
@@ -50,7 +50,7 @@
   </div>
 </div>
   
-<!-- Add Deadline Modal -->
+<!-- Add Personal Deadline Modal -->
 <div id="add_pers_dl_modal" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
@@ -94,6 +94,6 @@
     <li><a href="/accounts/logout"><span class="glyphicon glyphicon-log-out"></span> Log Out </a></li>
 </ul>
 <ul class="nav navbar-nav navbar-right">
-    <li><a href="#" data-toggle="modal" data-target="#add_pers_dl_modal"> Add Deadline </a></li>
+    <li><a href="#" data-toggle="modal" data-target="#add_pers_dl_modal"> <span class="glyphicon glyphicon-plus"> </span> Add Deadline </a></li>
 </ul>
 {% endblock %}

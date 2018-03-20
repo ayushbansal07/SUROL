@@ -1,13 +1,30 @@
-{% block content %}
-  <h2>Welcome Professor</h2>
-  Courses you are Taking :
-  <br>
-  {% for takes in Takes%}
-    <li><a href = "/surol/course/{{takes.course.id}}/"> {{takes.course.name}}  </a></li>
-    <br>
+{% extends 'surol/base.html' %}
+
+{% block extended_body %}
+  <div align="center">
+  <div class="panel panel-default" style="margin-top: 10%; max-width: 500; min-width: 500;">
+  <div class="panel-heading"><h3 align="center">Courses taken</h3></div>
+  <div class="panel-body">
+  {% for takes in Takes %}
+    <a href = "/surol/course/{{takes.course.id}}/" style="text-decoration: none;">
+    <div class="row row-striped">
+    <h4>
+       {{takes.course.name}}
+      <br>
+    </h4>
+  </div>
+  </a>
   {% endfor %}
   {% if error_msg %}<p><strong>{{ error_msg }}</strong></p>{% endif %}
   {% if success_msg %}<p><strong>{{ success_msg }}</strong></p>{% endif %}
-  <a href = "/accounts/logout" > logout </a>
+</div>
+</div>
+</div>
 
+{% endblock %}
+
+{% block extended_nav %}
+<ul class="nav navbar-nav navbar-right">
+    <li><a href="/accounts/logout"><span class="glyphicon glyphicon-log-out"></span> Log Out </a></li>
+</ul>
 {% endblock %}

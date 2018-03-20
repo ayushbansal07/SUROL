@@ -1,2 +1,11 @@
-<p> You have logged out successfuly </p>
-<a href="/surol/home"> home </a>
+{% extends 'surol/base.html' %}
+
+{% block extended_body %}
+
+<div class="alert alert-info" style="margin-top: 20%;">
+  Logging out and Redirecting... Please wait
+</div>
+<script type="text/javascript">
+	window.location.replace("{% url 'home' %}");
+</script>
+{% endblock %}

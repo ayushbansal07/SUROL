@@ -99,8 +99,7 @@ def signup(request):
 def homepage(request):
 	return render(request,'surol/home.html')
 
-def course(request,course_id):
-	#user_id =request.user.username[1:]
+def check_prof(request,course_id):
 	if not request.user.is_authenticated:
 		return HttpResponseRedirect("/surol/home")
 
@@ -110,8 +109,9 @@ def course(request,course_id):
 	id = int(user_id[1:])
 	takes_obj = Takes.objects.filter(professor=id,course=course_id)
 	if len(takes_obj) != 1:
-		return HttpResponseRedirect("/surol/professor")
+		return HttpResponseRedirect("/surol/professor")	
 
+def get_course_data(request,course_id):
 	course_deadlines = Course_deadline.objects.filter(course=course_id).order_by('date')
 	registered= Registers.objects.filter(course=course_id)
 	enrolled_students = []
@@ -134,6 +134,16 @@ def course(request,course_id):
 			other_deadlines[entry] += 1
 
 	other_deadlines = sorted(other_deadlines.items(),key=lambda x : x[0].date)
+	return course_deadlines, enrolled_students, other_deadlines	
+
+def course(request,course_id):
+	#user_id =request.user.username[1:]
+	response = check_prof(request,course_id)
+	if isinstance(response,HttpResponseRedirect):
+		return response
+
+	course_deadlines, enrolled_students, other_deadlines = get_course_data(request,course_id)
+
 	return render(request, 'surol/course.html',{'id' : request.user.username,
 		'course_id' : course_id,
 		'Course_deadlines' : course_deadlines,
@@ -141,55 +151,86 @@ def course(request,course_id):
 		'Other_deadlines' : other_deadlines})
 
 def registerStudent(request, course_id):
+	response = check_prof(request,course_id)
+	if isinstance(response,HttpResponseRedirect):
+		return response
+
 	if request.method == 'POST':
-		student_id = request.POST['student_id']
-		r_prev = Registers.objects.filter(student=student_id,course=course_id)
-		if len(r_prev) != 0:
-			print("User Already exists")
+		try:
+			student_id = int(request.POST['student_id'])
+		except:
+			course_deadlines, enrolled_students, other_deadlines = get_course_data(request,course_id)
 			return render(request,'surol/course.html',{
 				'id' : request.user.username,
 				'course_id' : course_id,
-				'error_msg' : "Student Already Registered!!"
+				'error_msg' : "Student Id must be an integer!!",
+				'Course_deadlines' : course_deadlines,
+				'Enrolled_students' : enrolled_students,
+				'Other_deadlines' : other_deadlines
+			})
+		r_prev = Registers.objects.filter(student=student_id,course=course_id)
+		if len(r_prev) != 0:
+			print("User Already exists")
+			course_deadlines, enrolled_students, other_deadlines = get_course_data(request,course_id)
+			return render(request,'surol/course.html',{
+				'id' : request.user.username,
+				'course_id' : course_id,
+				'error_msg' : "Student Already Registered!!",
+				'Course_deadlines' : course_deadlines,
+				'Enrolled_students' : enrolled_students,
+				'Other_deadlines' : other_deadlines
 			})
 		try:
 			r = Registers(student=Student.objects.filter(pk=student_id)[0],course=Course.objects.filter(pk=course_id)[0])
 			r.save()
 		except:
+			course_deadlines, enrolled_students, other_deadlines = get_course_data(request,course_id)
 			return render(request,'surol/course.html',{
 				'id' : request.user.username,
 				'course_id' : course_id,
-				'error_msg' : "Student Does not Exist!!"
+				'error_msg' : "Student Does not Exist!!",
+				'Course_deadlines' : course_deadlines,
+				'Enrolled_students' : enrolled_students,
+				'Other_deadlines' : other_deadlines
 			})
 		return HttpResponseRedirect("/surol/course/"+str(course_id))
 	else:
+		course_deadlines, enrolled_students, other_deadlines = get_course_data(request,course_id)
 		return render(request,'surol/course.html',{
 				'id' : request.user.username,
 				'course_id' : course_id,
-				'error_msg' : "Invalid Access!!"
+				'error_msg' : "Invalid Access!!",
+				'Course_deadlines' : course_deadlines,
+				'Enrolled_students' : enrolled_students,
+				'Other_deadlines' : other_deadlines
 			})
 
-def deregisterStudent(request,course_id):
-	if request.method == 'POST':
-		try:
-			student_id = request.POST['student_id']
-			r = Registers.objects.filter(student=student_id,course=course_id).delete()
-		except Exception as e:
-			print("Error : ",e)
-			return render(request,'surol/course.html',{
-				'id' : request.user.username,
-				'course_id' : course_id,
-				'error_msg' : "Student Not Registered!!"
-			})
+def deregisterStudent(request,course_id,student_id):
+	response = check_prof(request,course_id)
+	if isinstance(response,HttpResponseRedirect):
+		return response
 
-		return HttpResponseRedirect("/surol/course/"+str(course_id))
-	else:
+	try:
+		r = Registers.objects.filter(student=student_id,course=course_id).delete()
+	except Exception as e:
+		print("Error : ",e)
+		course_deadlines, enrolled_students, other_deadlines = get_course_data(request,course_id)
 		return render(request,'surol/course.html',{
-				'id' : request.user.username,
-				'course_id' : course_id,
-				'error_msg' : "Invalid Access!!"
-			})
+			'id' : request.user.username,
+			'course_id' : course_id,
+			'error_msg' : "Student Not Registered!!",
+			'Course_deadlines' : course_deadlines,
+			'Enrolled_students' : enrolled_students,
+			'Other_deadlines' : other_deadlines
+		})
+
+	return HttpResponseRedirect("/surol/course/"+str(course_id))
 
 def addDeadline(request,course_id):
+	response = check_prof(request,course_id)
+	if isinstance(response,HttpResponseRedirect):
+		return response
+
 	if request.method =='POST':
 		date = request.POST['date']
 		name = request.POST['name']
@@ -200,8 +241,33 @@ def addDeadline(request,course_id):
 
 		return HttpResponseRedirect("/surol/course/"+str(course_id))
 	else:
+		course_deadlines, enrolled_students, other_deadlines = get_course_data(request,course_id)
 		return render(request,'surol/course.html',{
 				'id' : request.user.username,
 				'course_id' : course_id,
-				'error_msg' : "Invalid Access!!"
+				'error_msg' : "Invalid Access!!",
+				'Course_deadlines' : course_deadlines,
+				'Enrolled_students' : enrolled_students,
+				'Other_deadlines' : other_deadlines
 			})
+
+
+def removeDeadline(request,course_id,deadline_id):
+	response = check_prof(request,course_id)
+	if isinstance(response,HttpResponseRedirect):
+		return response
+
+	try:
+		d = Course_deadline.objects.filter(pk=deadline_id).delete()
+	except Exception as e:
+		print("Error : ",e)
+		course_deadlines, enrolled_students, other_deadlines = get_course_data(request,course_id)
+		return render(request,'surol/course.html',{
+			'id' : request.user.username,
+			'course_id' : course_id,
+			'error_msg' : "Deadline not Removed!!",
+			'Course_deadlines' : course_deadlines,
+			'Enrolled_students' : enrolled_students,
+			'Other_deadlines' : other_deadlines
+		})
+	return HttpResponseRedirect("/surol/course/"+str(course_id))
