@@ -23,7 +23,7 @@
 }
 
 body {
-   background-image: url("http://blog.hostbaby.com/wp-content/uploads/2014/03/PaintSquares_1920x1234.jpg");
+   background-image: url("../images/background.jpg");
    background-color: #cccccc;
    background-repeat: round;
 }

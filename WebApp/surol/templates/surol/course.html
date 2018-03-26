@@ -16,18 +16,19 @@
 
   {% for student in Enrolled_students %}
     <div style="max-width: 350; min-width: 350;">
-      <div class="col-md-2">
+      <div class="col-md-3">
       <h4> {{ student.id }} </h4>
       </div>
-      <div class="col-md-8">
+      <div class="col-md-7">
       <h4>{{ student.name }}</h4>
-    </div>
+      </div>
       <div class="col-md-2">
-       <h5><a href="{% url 'deregister_student' course_id student.id %}">
-    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-  </a></h5>
-</div>
-  </div>
+      <h5><a href="{% url 'deregister_student' course_id student.id %}">
+      <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+      </a></h5>
+      </div>
+    </div>
+    <br>
   {% endfor %}
 
 
@@ -137,7 +138,7 @@
        
           <div class="form-group">
             <label class="control-label col-sm-2" for="date"> DateTime: </label>
-            <div class="col-sm-10"><input type="datetime-local" class="form-control" name="date"></div>
+            <div class="col-sm-10"><input type="datetime-local" class="form-control" name="date" id="dtfield"></div>
           </div>
           <div class="form-group">
             <label class="control-label col-sm-2" for="name"> Name: </label>
@@ -159,6 +160,12 @@
   
   </div>
 </div>
+
+<script type="text/javascript">
+    var today = new Date(Date.now());
+    console.log(today.toISOString().substr(0,23));
+    document.getElementById("dtfield").setAttribute("min", today.toISOString().substr(0,23));
+</script>
 
 {% endblock %}
 

@@ -27,12 +27,13 @@ def studenthome(request):
 	p_deadlines = Personal_deadline.objects.filter(student=id)
 
 	for deadline in p_deadlines:
-		result.append((deadline.date,deadline.name,deadline.comments))
+		result.append((deadline.date,deadline.name,deadline.comments,"Personal",deadline.id))
 
 	for register in registers:
 		c_deadlines = Course_deadline.objects.filter(course=register.course)
+		course_name = Course.objects.filter(pk=register.course.id)[0].name
 		for deadline in c_deadlines:
-			result.append((deadline.date,deadline.name,deadline.comments))
+			result.append((deadline.date,deadline.name,deadline.comments,course_name,None))
 
 	result.sort(key = lambda x : x[0])
 	context = {'id':id,
@@ -66,10 +67,7 @@ def index(request):
 			return HttpResponseRedirect("/surol/professor/")
 
 	else:
-		return HttpResponseRedirect("/surol/home")
-
-
-
+		return render(request,'surol/home.html')
 
 def signup(request):
 	if request.method == 'POST':
@@ -95,9 +93,7 @@ def signup(request):
 			print("Error In Signup")
 	else:
 		return render(request,'surol/signup.html')
-
-def homepage(request):
-	return render(request,'surol/home.html')
+	
 
 def check_prof(request,course_id):
 	if not request.user.is_authenticated:
@@ -271,3 +267,10 @@ def removeDeadline(request,course_id,deadline_id):
 			'Other_deadlines' : other_deadlines
 		})
 	return HttpResponseRedirect("/surol/course/"+str(course_id))
+
+def removeDeadlineStudent(request,student_id,deadline_id):
+	if not request.user.is_authenticated:
+		return HttpResponseRedirect("/surol/home")
+
+	Personal_deadline.objects.filter(pk=deadline_id).delete()
+	return HttpResponseRedirect("/surol/student")

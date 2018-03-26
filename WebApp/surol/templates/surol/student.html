@@ -1,10 +1,10 @@
 {% extends 'surol/base.html' %}
 
 {% block extended_body %}
-<div class="container-fluid" style="padding-top: 70px;">
-  <h2 style="font-family: 'Indie Flower', cursive;"> <strong> Welcome {{ Student_info.name }} </strong> </h2>
-  <h3 style="font-family: 'Indie Flower', cursive;"> <strong>ID: </strong>{{request.user.username}} </h3>
-  <h3 style="font-family: 'Indie Flower', cursive;"> <strong>Dept:</strong> {{Student_info.dept_name}} </h3>
+<div class="container-fluid" style="padding-top: 50px; margin-left: 0%; margin-bottom: 2%;">
+  <h2 style="font-family: 'Gloria Hallelujah', cursive; font-size: 300%;"> <strong> Welcome {{ Student_info.name }} </strong> </h2>
+  <h3 style="font-family: 'Rajdhani', sans-serif; font-size: 200%;"><strong> ID: {{request.user.username}}</strong> </h3>
+  <h3 style="font-family: 'Rajdhani', sans-serif; font-size: 200%;"><strong> Dept: {{Student_info.dept_name}}</strong></h3>
 </div>
 
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">  
@@ -15,7 +15,7 @@
   {% for registers in Registers%}
     <div style="max-width: 400; min-width: 400;">
     <h4>
-       {{  registers.course }}
+       {{ registers.course.name }}
     </h4>
   </div>
   {% endfor %}
@@ -30,10 +30,13 @@
     <div class="panel-body" style="max-width: 800; min-width: 800;">
 
 
-    {% for ddate,dname,dcomments  in Deadlines %}
+    {% for ddate,dname,dcomments,dtype,did  in Deadlines %}
     <div class="row row-striped" style="max-width: 800; min-width: 800;">
        <div class="col-md-10">
         <h4 class="text-uppercase"><strong>{{dname}}</strong></h4>
+        {% if dtype != "Personal" %}
+          <p><i>{{dtype}}</i></p>
+        {% endif %}
         <ul class="list-inline">
           <li class="list-inline-item"><i class="fa fa-calendar-o" aria-hidden="true"></i> {{ddate|date:"l"}}</li>
           <li class="list-inline-item"><i class="fa fa-clock-o" aria-hidden="true"></i> {{ddate|date:"P"}}</li>
@@ -41,6 +44,11 @@
         <p> {{dcomments}}</p>
       </div>
       <div class="col-md-2 text-right">
+        {% if dtype == "Personal" %}
+          <a href="{% url 'remove_pdeadline' id did %}">
+          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+          </a>
+        {% endif %}
         <h1 class="display-4"><span class="label label-default">{{ddate|date:"d"}}</span></h1>
         <h3>{{ddate|date:"N"}}</h3>
       </div>  
@@ -49,7 +57,7 @@
 
   </div>
 </div>
-  
+
 <!-- Add Personal Deadline Modal -->
 <div id="add_pers_dl_modal" class="modal fade" role="dialog">
   <div class="modal-dialog">
@@ -65,7 +73,7 @@
        
           <div class="form-group">
             <label class="control-label col-sm-2" for="date"> DateTime: </label>
-            <div class="col-sm-10"><input type="datetime-local" class="form-control" name="date"></div>
+            <div class="col-sm-10"><input type="datetime-local" class="form-control" name="date" id="dtfield"></div>
           </div>
           <div class="form-group">
             <label class="control-label col-sm-2" for="name"> Name: </label>
@@ -87,6 +95,12 @@
   
   </div>
 </div>
+
+<script type="text/javascript">
+    var today = new Date(Date.now());
+    console.log(today.toISOString().substr(0,23));
+    document.getElementById("dtfield").setAttribute("min", today.toISOString().substr(0,23));
+</script>
 {% endblock %}
 
 {% block extended_nav %}
