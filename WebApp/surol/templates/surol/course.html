@@ -7,7 +7,7 @@
 </div>
 
 
-<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">  
+<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js" integrity="sha384-SlE991lGASHoBfWbelyBPLsUlwY1GwNDJo3jSJO04KZ33K2bwfV9YBauFfnzvynJ" crossorigin="anonymous"></script>
 
 <div style="float:left; margin-right: 3%; margin-left: 5%;" class="panel panel-default">
   <div class="panel-heading"><h3>Students enrolled</h3></div>
@@ -47,8 +47,8 @@
        <div class="col-md-10">
         <h4 class="text-uppercase"><strong>{{deadline.name}}</strong></h4>
         <ul class="list-inline">
-          <li class="list-inline-item"><i class="fa fa-calendar-o" aria-hidden="true"></i> {{deadline.date|date:"l"}}</li>
-          <li class="list-inline-item"><i class="fa fa-clock-o" aria-hidden="true"></i> {{deadline.date|date:"P"}}</li>
+          <li class="list-inline-item"><i class="fas fa-calendar-check" aria-hidden="true"></i> {{deadline.date|date:"l"}}</li>
+          <li class="list-inline-item"><i class="fas fa-clock" aria-hidden="true"></i> {{deadline.date|date:"P"}}</li>
         </ul>
         <p> {{deadline.comments}}</p>
         
@@ -77,8 +77,9 @@
        <div class="col-md-10">
         <h4 class="text-uppercase"><strong>{{deadline.name}}</strong></h4>
         <ul class="list-inline">
-          <li class="list-inline-item"><i class="fa fa-calendar-o" aria-hidden="true"></i> {{deadline.date|date:"l"}}</li>
-          <li class="list-inline-item"><i class="fa fa-clock-o" aria-hidden="true"></i> {{deadline.date|date:"P"}}</li>
+          <li class="list-inline-item"><i class="fas fa-calendar-check" aria-hidden="true"></i> {{deadline.date|date:"l"}}</li>
+          <li class="list-inline-item"><i class="fas fa-clock" aria-hidden="true"></i> {{deadline.date|date:"P"}}</li>
+          <li class="list-inline-item"><i class="fas fa-users" aria-hidden="true"></i> {{count}}</li>
         </ul>
         <p> {{deadline.comments}}</p>
       </div>
