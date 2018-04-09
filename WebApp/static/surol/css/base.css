@@ -19,11 +19,11 @@
 #base_head {
 	padding-top: 150px;
 	font-family: 'Reenie Beanie', cursive;
-	font-size: 100px;
+	font-size: 50px;
 }
 
 body {
-   background-image: url("../images/background.jpg");
+   background-image: url("http://www2.lanecove.nsw.gov.au/mobileapp/Content/images/backgrounds/bg.jpg");
    background-color: #cccccc;
    background-repeat: round;
 }
@@ -43,11 +43,13 @@ body {
 }
 
 #calendar-cont {
-	margin-right: 10%;
+	margin-left: 4%;
+	margin-right: 4%;
 	margin-top: 0%;
 }
 
 #left_box {
-	margin-left: 10%;
+	margin-left: 4%;
+	margin-right: 4%;
 	margin-top: 0%;
 }

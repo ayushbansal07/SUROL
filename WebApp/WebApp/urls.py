@@ -24,5 +24,6 @@ urlpatterns = [
     path('accounts/login',login),
     path('accounts/logout',logout),
     path('accounts/profile/',include('surol.urls')),
-    path('surol/',include('surol.urls'))
+    path('surol/',include('surol.urls')),
+    path('', include('surol.urls'))
 ]

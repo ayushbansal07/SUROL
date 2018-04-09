@@ -9,42 +9,57 @@
 
 <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js" integrity="sha384-SlE991lGASHoBfWbelyBPLsUlwY1GwNDJo3jSJO04KZ33K2bwfV9YBauFfnzvynJ" crossorigin="anonymous"></script>
 
-<div style="float:left; margin-right: 3%; margin-left: 5%;" class="panel panel-default">
+<div class="panel panel-default" style="margin-left: 4%; margin-right: 4%; margin-top: 15%;">
   <div class="panel-heading"><h3>Students enrolled</h3></div>
-  <div class="panel-body" style="max-width: 350; min-width: 350;">
-
-
+  <div class="panel-body" style="overflow-x:auto;">
+    <table>
   {% for student in Enrolled_students %}
-    <div style="max-width: 350; min-width: 350;">
-      <div class="col-md-3">
+    <tr style="height: 30px;">
+      <td style="width: 30%;"> <strong> {{student.id}} </strong> </td>
+      <td style="width: 70%;"> {{student.name}} </td>
+      <td style="width: 20%;"> <a href="{% url 'deregister_student' course_id student.id %}">
+      <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+      </a> </td>
+
+    </tr>
+
+
+
+    <!-- <div>
+      <div>
       <h4> {{ student.id }} </h4>
       </div>
-      <div class="col-md-7">
+      <div>
       <h4>{{ student.name }}</h4>
       </div>
-      <div class="col-md-2">
+      <div>
       <h5><a href="{% url 'deregister_student' course_id student.id %}">
       <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
       </a></h5>
       </div>
     </div>
-    <br>
+    <br> -->
   {% endfor %}
-
+  </table>
 
   {% if error_msg %}<p><strong>{{ error_msg }}</strong></p>{% endif %}
 </div>
 </div>
 
 
-<div style="float:left; margin-right: 3%;" class="panel panel-default" id="calendar-cont">
+<div class="panel panel-default" style="margin-right: 4%; margin-left: 4%;" id="calendar-cont">
     <div class="panel-heading"><h3>Course Deadlines</h3></div>
-    <div class="panel-body" style="max-width: 600; min-width: 600;">
+    <div class="panel-body">
 
 
     {% for deadline  in Course_deadlines %}
-    <div class="row row-striped" style="max-width: 600; min-width: 600;">
-       <div class="col-md-10">
+    <div class="row row-striped">
+      <div class="text-right" style="margin-right: 4%;">
+         <a href="{% url 'remove_deadline' course_id deadline.id %}">
+         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+        </a>
+      </div>
+       <div class="col-md-10 text-left">
         <h4 class="text-uppercase"><strong>{{deadline.name}}</strong></h4>
         <ul class="list-inline">
           <li class="list-inline-item"><i class="fas fa-calendar-check" aria-hidden="true"></i> {{deadline.date|date:"l"}}</li>
@@ -54,10 +69,8 @@
         
       </div>
       <div class="col-md-2 text-right">
-        <a href="{% url 'remove_deadline' course_id deadline.id %}">
-         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-        </a>
-        <h3 class="display-4"><span class="label label-default">{{deadline.date|date:"d"}}</span></h3>
+       
+        <h1 class="display-4"><span class="label label-default">{{deadline.date|date:"d"}}</span></h1>
         <h3>{{deadline.date|date:"N"}}</h3>
       </div>  
     </div>
@@ -67,13 +80,13 @@
 </div>
 
 
-<div style="float:left; margin-right: 10px;" class="panel panel-default" id="calendar-cont">
+<div class="panel panel-default" id="calendar-cont">
     <div class="panel-heading"><h3>Other Deadlines</h3></div>
-    <div class="panel-body" style="max-width: 600; min-width: 600;">
+    <div class="panel-body">
 
 
     {% for deadline,count in Other_deadlines %}
-    <div class="row row-striped" style="max-width: 600; min-width: 600;">
+    <div class="row row-striped">
        <div class="col-md-10">
         <h4 class="text-uppercase"><strong>{{deadline.name}}</strong></h4>
         <ul class="list-inline">
@@ -162,11 +175,11 @@
   </div>
 </div>
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
     var today = new Date(Date.now());
     console.log(today.toISOString().substr(0,23));
     document.getElementById("dtfield").setAttribute("min", today.toISOString().substr(0,23));
-</script>
+</script> -->
 
 {% endblock %}
 

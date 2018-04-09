@@ -1,19 +1,19 @@
 {% extends 'surol/base.html' %}
 
 {% block extended_body %}
-<div class="container-fluid" style="padding-top: 50px; margin-left: 0%; margin-bottom: 2%;">
-  <h2 style="font-family: 'Gloria Hallelujah', cursive; font-size: 300%;"> <strong> Welcome {{ Student_info.name }} </strong> </h2>
+<div class="container-fluid" style="padding-top: 170px; margin-left: 0%; margin-bottom: 2%;">
+  <h2 style="font-family: 'Gloria Hallelujah', cursive; font-size: 200%;"> <strong> Welcome {{ Student_info.name }} </strong> </h2>
   <h3 style="font-family: 'Rajdhani', sans-serif; font-size: 200%;"><strong> ID: {{request.user.username}}</strong> </h3>
   <h3 style="font-family: 'Rajdhani', sans-serif; font-size: 200%;"><strong> Dept: {{Student_info.dept_name}}</strong></h3>
 </div>
 
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">  
 
-<div style="float:left" class="panel panel-default" id="left_box">
+<div class="panel panel-default" id="left_box">
   <div class="panel-heading"><h3>Registered Courses</h3></div>
   <div class="panel-body">
   {% for registers in Registers%}
-    <div style="max-width: 400; min-width: 400;">
+    <div>
     <h4>
        {{ registers.course.name }}
     </h4>
@@ -25,14 +25,14 @@
 </div>
 
 
-  <div style="float:right" class="panel panel-default" id="calendar-cont">
+  <div class="panel panel-default" id="calendar-cont">
     <div class="panel-heading"><h3>Your calendar</h3></div>
-    <div class="panel-body" style="max-width: 800; min-width: 800;">
+    <div class="panel-body">
 
 
     {% for ddate,dname,dcomments,dtype,did  in Deadlines %}
-    <div class="row row-striped" style="max-width: 800; min-width: 800;">
-       <div class="col-md-10">
+    <div class="row row-striped">
+       <div class="col-md-10 text-left">
         <h4 class="text-uppercase"><strong>{{dname}}</strong></h4>
         {% if dtype != "Personal" %}
           <p><i>{{dtype}}</i></p>
@@ -96,11 +96,11 @@
   </div>
 </div>
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
     var today = new Date(Date.now());
     console.log(today.toISOString().substr(0,23));
     document.getElementById("dtfield").setAttribute("min", today.toISOString().substr(0,23));
-</script>
+</script> -->
 {% endblock %}
 
 {% block extended_nav %}
